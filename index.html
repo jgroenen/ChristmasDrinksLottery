@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+        <style>
+            #notification {
+                text-align: center;
+                font-family: Arial;
+                max-height: 100%;
+            }
+            body {
+                background: url(http://wallpapers9.org/wp-content/uploads/2014/12/Christmas-Photo-Background-4.jpg) top left no-repeat;
+                background-size: cover;
+                width: 100%;
+                height: 100;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="notification"></h1>
+        <textarea id="names" style="width: 400px; height: 400px" placeholder="Names go here"></textarea>
+        <input id="go" type="submit" value="GO!"/>
+        <script>
+            $(function () {
+    
+                var interval,
+                    names;
+                
+                $("#go").click(go);
+                $("#notification").hide(50);
+                
+                function go() {
+                    names = $("#names").val()
+                        .replace(/,/g, ' ')
+                        .split(' ');
+                    interval = setInterval(next, 4000);
+                    $("#names").hide();
+                    $("#go").hide();
+                }
+                
+                function next() {
+                    var index = Math.floor(Math.random() * names.length);
+                    var person = names.splice(index, 1);
+                    console.log(person, index, names.length, names);
+                    if (names.length) {
+                        notify(person + " OUT!", "#a32");
+                    } else {
+                        notify(person + " WINNER!", "#3a2");
+                        clearInterval(interval);
+                    }
+                }
+                
+                function notify(msg, color) {
+                    $("#notification").hide();
+                    $("#notification").html(msg);
+                    $("#notification")
+                        .css("color", color)
+                        .css("font-size", "0")
+                        .show()
+                        .animate({
+                            "font-size": "20em",
+                        }, 500);
+                }
+                
+            }());
+        </script>
+    </body>
+</html>
